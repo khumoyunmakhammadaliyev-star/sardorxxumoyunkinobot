@@ -14,6 +14,6 @@ ADMIN_IDS = [
 CHANNEL_ID = os.getenv("CHANNEL_ID", "")
 CHANNEL_LINK = os.getenv("CHANNEL_LINK", "")
 
-DB_PATH = os.getenv("DB_PATH", "movies.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 THROTTLE_RATE = float(os.getenv("THROTTLE_RATE", "1.5"))
