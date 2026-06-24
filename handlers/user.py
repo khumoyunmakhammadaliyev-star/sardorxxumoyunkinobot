@@ -34,9 +34,10 @@ async def cmd_start(message: Message, bot: Bot):
 
     await message.answer(
         "🎬 Xush kelibsiz!\n\n"
-        "Kino kodini yuboring (masalan: 1) — men sizga kinoni topib beraman.\n"
-        "Mavjud kinolar ro'yxati uchun /list buyrug'ini yuboring.\n"
-        "Janr bo'yicha qidirish uchun /genres buyrug'idan foydalaning."
+        "Kino kodini yuboring (masalan: 1) — men sizga kinoni topib beraman.\n\n"
+        "⏳ Eslatma: agar bot biroz vaqt ishlatilmagan bo'lsa, birinchi xabarga "
+        "javob qaytarish bir necha soniyadan to bir DAQIQAGACHA cho'zilishi mumkin — "
+        "bu normal holat, iltimos shoshilmasdan kuting."
     )
 
 
