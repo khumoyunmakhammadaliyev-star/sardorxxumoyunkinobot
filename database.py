@@ -150,3 +150,8 @@ def count_users():
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) AS c FROM users")
         return cur.fetchone()["c"]
+def get_all_user_ids():
+    with get_connection() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT user_id FROM users")
+        return [r["user_id"] for r in cur.fetchall()]

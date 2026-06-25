@@ -1,4 +1,6 @@
 from aiogram import Router, F
+import asyncio
+from aiogram import Bot
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -170,3 +172,40 @@ async def cmd_stats(message: Message):
             text += f"{i}. {movie['title']} (kod: {movie['code']}) — {movie['views']} marta\n"
 
     await message.answer(text, parse_mode="HTML")
+class Broadcast(StatesGroup):
+    message = State()
+
+
+@router.message(Command("broadcast"))
+async def cmd_broadcast(message: Message, state: FSMContext):
+    await state.set_state(Broadcast.message)
+    await message.answer(
+        "📢 Barcha foydalanuvchilarga yubormoqchi bo'lgan xabar matnini yozing:\n\n"
+        "Bekor qilish uchun /cancel"
+    )
+
+
+@router.message(Broadcast.message)
+async def do_broadcast(message: Message, state: FSMContext, bot: Bot):
+    await state.clear()
+    text = message.html_text
+
+    user_ids = db.get_all_user_ids()
+    total = len(user_ids)
+    await message.answer(f"📤 Yuborish boshlandi... ({total} ta foydalanuvchi)")
+
+    success = 0
+    failed = 0
+
+    for user_id in user_ids:
+        try:
+            await bot.send_message(chat_id=user_id, text=text)
+            success += 1
+        except Exception:
+            failed += 1
+        await asyncio.sleep(0.05)
+
+    await message.answer(
+        f"✅ Yuborildi: {success} ta\n"
+        f"❌ Yuborilmadi: {failed} ta (botni bloklagan yoki o'chirgan foydalanuvchilar)"
+    )
